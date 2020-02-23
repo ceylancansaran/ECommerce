@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Data.Contexts;
+using ECommerce.Data.Interfaces;
+using ECommerce.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +37,7 @@ namespace ECommerce.Web
             services.AddDbContext<DataContext>(a => a
             .UseSqlServer("Server=localhost;user Id=sa;Password=123;Database=YMS8518_ECommerce;"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

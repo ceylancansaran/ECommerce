@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
+using ECommerce.Data.Entities;
+using System.Linq;
 
 namespace ECommerce.Service
 {
@@ -10,6 +11,11 @@ namespace ECommerce.Service
         public UserRepository(Data.Contexts.DataContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public User GetByEmailAndPassword(string email, string password)
+        {
+            return _dataContext.Users.SingleOrDefault(a => a.Email == email && a.Password == Helper.CryptoHelper.Sha1(password));
         }
     }
 }
