@@ -4,12 +4,12 @@
             type: "GET",
             url: "/module/userbar",
             data: [],
-            success: Home_Index.ModuleUserBar_CallBack,
+            success: Home_Index.ModuleUserBar_Callback,
             dataType: "html",
             contentType: "html"
         });
     },
-    ModuleUserBar_CallBack: function (result) {
+    ModuleUserBar_Callback: function (result) {
         $("#Module-UserBar").html(result);
     }
 };

@@ -1,7 +1,5 @@
 ﻿using ECommerce.Data.Contexts;
 using ECommerce.Data.Interfaces;
-using System;
-
 
 namespace ECommerce.Service
 {
@@ -9,6 +7,7 @@ namespace ECommerce.Service
     {
         public IUserRepository UserRepository { get; set; }
         private readonly DataContext _dataContext;
+
         public UnitOfWork(DataContext dataContext)
         {
             _dataContext = dataContext;

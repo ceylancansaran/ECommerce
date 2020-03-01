@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Data.Interfaces;
+﻿using ECommerce.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +11,7 @@ namespace ECommerce.Web.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult UserBar()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");

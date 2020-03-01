@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Data.DTOs
 {
@@ -12,7 +9,7 @@ namespace ECommerce.Data.DTOs
 
         [Required, MinLength(8), MaxLength(64)]
         public string Password { get; set; }
-        public bool RememberMe { get; set; }
 
+        public bool RememberMe { get; set; }
     }
 }

@@ -23,8 +23,7 @@
             window.location = "/";
         },
         Login_Callback_Error: function (result) {
-            alert("Ayıp Ama");
+            alert("YAPTIĞIN AYIP");
         }
-
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ECommerce.Data.Contexts;
 using ECommerce.Data.Interfaces;
 using ECommerce.Service;
 using Microsoft.AspNetCore.Builder;
@@ -34,11 +33,10 @@ namespace ECommerce.Web
                 //options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddDbContext<DataContext>(a => a
-            .UseSqlServer("Server=localhost;user Id=sa;Password=123;Database=YMS8518_ECommerce;"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<Data.Contexts.DataContext>(a => a
+                .UseSqlServer("Server=localhost;Database=YMS8518_ECommerce;User Id=sa;Password=123;"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         private static readonly object MiddlewareLock = new object();
@@ -57,7 +55,6 @@ namespace ECommerce.Web
             }
 
             app.Use(async (context, next) => {
-
                 lock (MiddlewareLock)
                 {
                     if (context.Session.GetString("SessionKey") == null)
@@ -72,7 +69,7 @@ namespace ECommerce.Web
                                 {
                                     IUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-                                    var user = unitOfWork.UserRepository.GetByAutoLoginkey((Guid) guid);
+                                    var user = unitOfWork.UserRepository.GetByAutoLoginKey((Guid)guid);
 
                                     if (user != null)
                                     {
@@ -81,13 +78,13 @@ namespace ECommerce.Web
                                 }
                             }
                         }
+
                         context.Session.SetString("SessionKey", Guid.NewGuid().ToString());
                         context.Session.CommitAsync().Wait();
                     }
                 }
 
                 await next.Invoke();
-               
             });
 
             app.UseStaticFiles();
