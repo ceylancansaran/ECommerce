@@ -1,4 +1,7 @@
 ﻿var Account_Profile = {
+    Init: function () {
+        Helper.Module.Init("AccountMenu");
+    },
     Save: function () {
         var name = $("#account-profile-name").val();
         var surname = $("#account-profile-surname").val();
@@ -14,12 +17,10 @@
             data: data,
             dataType: "json",
             contentType: "application/json; charset=utf-8;",
-            success: Account_Profile.Save_CallBack
-
+            success: Account_Profile.Save_Callback
         });
     },
-
-    Save_CallBack: function (result) {
+    Save_Callback: function (result) {
         location.reload();
     }
 };

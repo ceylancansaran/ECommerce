@@ -1,4 +1,8 @@
-﻿using ECommerce.Data.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ECommerce.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +21,13 @@ namespace ECommerce.Web.Controllers
             var user = _unitOfWork.UserRepository.GetById((int)userId);
             return View(user);
         }
+
         public IActionResult ProfileSaveAction([FromBody]Data.DTOs.Account_ProfileSaveAction_Request account_ProfileSaveAction_Request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("klaksals");
+                return BadRequest("bad boy");
             }
-
             int? userId = HttpContext.Session.GetInt32("UserId");
 
             var user = _unitOfWork.UserRepository.Get((int)userId);
@@ -35,6 +39,10 @@ namespace ECommerce.Web.Controllers
             _unitOfWork.Complete();
 
             return new JsonResult(user);
+        }
+        public IActionResult ChangePassword()
+        {
+            return View();
         }
     }
 }

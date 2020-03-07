@@ -1,24 +1,24 @@
-﻿using ECommerce.Data.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ECommerce.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace ECommerce.Web.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public UserController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-
         public IActionResult Login()
         {
             return View();
         }
-
         public IActionResult LoginAction([FromBody]Data.DTOs.User_LoginAction_Request user_LoginAction_Request)
         {
             if (!ModelState.IsValid)
@@ -27,7 +27,7 @@ namespace ECommerce.Web.Controllers
             }
 
             var user = _unitOfWork.UserRepository.GetByEmailAndPassword(user_LoginAction_Request.Email, user_LoginAction_Request.Password);
-
+            
             if (user == null)
             {
                 return Unauthorized();
@@ -35,7 +35,6 @@ namespace ECommerce.Web.Controllers
             else
             {
                 HttpContext.Session.SetInt32("UserId", user.Id);
-
                 if (user_LoginAction_Request.RememberMe)
                 {
                     //beni hatırla
@@ -45,12 +44,12 @@ namespace ECommerce.Web.Controllers
                     _unitOfWork.Complete();
 
                     HttpContext.Response.Cookies.Append("rememberme", guid.ToString(),
-                        new CookieOptions() {
+                        new CookieOptions()
+                        {
                             Expires = DateTime.UtcNow.AddYears(1)
                         });
                 }
             }
-
             return new JsonResult(user);
         }
 

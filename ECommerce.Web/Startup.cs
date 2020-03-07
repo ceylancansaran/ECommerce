@@ -34,12 +34,12 @@ namespace ECommerce.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddDbContext<Data.Contexts.DataContext>(a => a
-                .UseSqlServer("Server=localhost;Database=YMS8518_ECommerce;User Id=sa;Password=123;"));
+            .UseSqlServer("Server=localhost;Database=YMS8518_ECommerce;User Id=sa;Password=123"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        private static readonly object MiddlewareLock = new object();
+        private static readonly object Middlewarelock = new object();
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)
@@ -55,7 +55,7 @@ namespace ECommerce.Web
             }
 
             app.Use(async (context, next) => {
-                lock (MiddlewareLock)
+                lock (Middlewarelock)
                 {
                     if (context.Session.GetString("SessionKey") == null)
                     {
@@ -78,7 +78,6 @@ namespace ECommerce.Web
                                 }
                             }
                         }
-
                         context.Session.SetString("SessionKey", Guid.NewGuid().ToString());
                         context.Session.CommitAsync().Wait();
                     }
